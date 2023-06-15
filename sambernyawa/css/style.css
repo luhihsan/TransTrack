@@ -396,3 +396,9 @@
 .chart {
   width: 40%;
 }
+
+
+.table-container {
+  height: 800px;
+  overflow: auto;
+}
