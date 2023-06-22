@@ -1,3 +1,34 @@
+<?php
+include('koneksi.php');
+if (isset($_POST['kondisi'])) {
+  $selectedUnit = $_POST['id_unit'];
+
+// Query untuk mengambil data dari tabel unit
+$query_unit = "SELECT * FROM unit WHERE id_unit = '$selectedUnit'";
+$result_unit = mysqli_query($conn, $query_unit);
+$row_unit = mysqli_fetch_assoc($result_unit);
+
+// Query untuk mengambil data dari tabel data_chassis
+$query_chassis = "SELECT * FROM data_chassis WHERE id_unit = '$selectedUnit'";
+$result_chassis = mysqli_query($conn, $query_chassis);
+$row_chassis = mysqli_fetch_assoc($result_chassis);
+$result_chassis = mysqli_query($conn, $query_chassis);
+if (!$result_chassis) {
+    die('Error: ' . mysqli_error($conn));
+}
+$query_status = "SELECT * FROM status_unit WHERE id_unit = '$selectedUnit'";
+$result_status = mysqli_query($conn, $query_status);
+$row_status = mysqli_fetch_assoc($result_status);
+
+$query_kondisi = "SELECT * FROM kondisi_unit WHERE id_unit = '$selectedUnit'";
+$result_kondisi = mysqli_query($conn, $query_kondisi);
+$row_kondisi = mysqli_fetch_assoc($result_kondisi);
+
+}
+// Close koneksi ke database
+mysqli_close($conn);
+?>
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -9,7 +40,6 @@
       }
     </style>
     <meta charset="utf-8" />
-    <title>CarServ - Car Repair HTML Template</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
     <meta content="" name="keywords" />
     <meta content="" name="description" />
@@ -83,19 +113,19 @@
             <div class="row gy-4">
               <div class="col-md-4">
                 <div class="bg-light d-flex flex-column justify-content-center p-4">
-                  <h5 class="text-uppercase text-center">WITM-101-Laksana</h5>
+                  <h5 class="text-uppercase text-center"> <?php echo isset($row_unit['nomer_lambung']) ? $row_unit['nomer_lambung'] : 'N/A'; ?></h5>
                   <hr>
                   <div class="">
                     <div class="card-body">
-                      <h5 class="card-title">Chassis Type   : Volvo B11R-6x4</h5>
+                      <h5 class="card-title">Chassis Type   :  <?php echo isset($row_unit['chassis']) ? $row_unit['chassis'] : 'N/A'; ?></h5>
                       <p class="card-text"></p>
-                      <h5 class="card-title">Engine Power  : 430HP</h5>
+                      <h5 class="card-title">Engine Power  : <?php echo isset($row_chassis['eng_power']) ? $row_chassis['eng_power'] : 'N/A'; ?></h5>
                       <p class="card-text"></p>
-                      <h5 class="card-title">Engine Torque : 2091Nm</h5>
+                      <h5 class="card-title">Engine Torque : <?php echo isset($row_chassis['eng_torque']) ? $row_chassis['eng_torque'] : 'N/A'; ?></h5>
                       <p class="card-text"></p>
-                      <h5 class="card-title">Gearbox            : AT2412F</h5>
+                      <h5 class="card-title">Gearbox       : <?php echo isset($row_chassis['gearbox']) ? $row_chassis['gearbox'] : 'N/A'; ?></h5>
                       <p class="card-text"></p>
-                      <h5 class="card-title">Fuel Tank          : 600lt</h5>
+                      <h5 class="card-title">Fuel Tank     : <?php echo isset($row_chassis['oil_tank']) ? $row_chassis['oil_tank'] : 'N/A'; ?></h5>
                     </div>
                     <!-- <ul class="list-group list-group-flush">
                       <li class="list-group-item">Engine : Good Condition</li>
@@ -104,7 +134,6 @@
                       <li class="list-group-item">A third item</li>
                       <li class="list-group-item">A third item</li>
                     </ul> -->
-                   
                   </div>
                   </div>
                 </div>
@@ -114,73 +143,56 @@
                 <div class="card bg-light">
                   <div class="card-body bg-light">
                     <h5 class="card-title">Damage Report</h5>
-                    <p class="card-text">A damage report is provided by a repairer to help us understand the background to a claim.</p>
+                    <p class="card-text">A damage report is provided by a repairer to help us understand the background to unit condition it self</p>
                   </div>
                   <ul class="list-group list-group-flush">
                     <li class="list-group-item">
-                      <h6>Engine:</h6>
-                      <button type="button" class="btn btn-success btn-block">Good Condition</button>
-                      <button type="button" class="btn btn-success btn-block">75%</button>
+                      <h6>Engine :</h6>
+                      <button type="button" class="btn btn-success btn-block"><?php echo isset($row_kondisi['prsn_mesin']) ? $row_kondisi['prsn_mesin'] : 'N/A'; ?></button>
                     </li>
                     <li class="list-group-item">
-                      <h6>Transmission:</h6>
-                      <button type="button" class="btn btn-danger btn-block">Change Gear Box Oil</button>
-                      <button type="button" class="btn btn-danger btn-block">50%</button>
+                      <h6>Gearbox :</h6>
+                      <button type="button" class="btn btn-danger btn-block"><?php echo isset($row_kondisi['prsn_transmisi']) ? $row_kondisi['prsn_transmisi'] : 'N/A'; ?></button>
                     </li>
                     <li class="list-group-item">
-                      <h6>Electricity:</h6>
-                      <button type="button" class="btn btn-success btn-block">Good Condition</button>
-                      <button type="button" class="btn btn-success btn-block">75%</button>
+                      <h6>Break and Wheel :</h6>
+                      <button type="button" class="btn btn-success btn-block"><?php echo isset($row_kondisi['prsn_rem_dan_ban']) ? $row_kondisi['prsn_rem_dan_ban'] : 'N/A'; ?></button>
                     </li>
                     <li class="list-group-item">
-                      <h6>Wheel:</h6>
-                      <button type="button" class="btn btn-warning btn-block">Change Left Front Tire in Next 10,000 Km</button>
-                      <button type="button" class="btn btn-warning btn-block">10%</button>
+                      <h6>Electricity :</h6>
+                      <button type="button" class="btn btn-warning btn-block"><?php echo isset($row_kondisi['prsn_kelistrikan']) ? $row_kondisi['prsn_kelistrikan'] : 'N/A'; ?></button>
                     </li>
                     <li class="list-group-item"></li>
                   </ul>
                   <div class="card-body">
-                    <button type="button" class="btn btn-dark btn-block">Truck Damage:</button>
-                    <button type="button" class="btn btn-warning btn-block">25%</button>
+                    <button type="button" class="btn btn-dark btn-block">Unit Status :</button>
+                    <button type="button" class="btn btn-warning btn-block"><?php echo isset($row_status['keterangan_status']) ? $row_status['keterangan_status'] : 'N/A'; ?></button>
                   </div>
                   <div class="card-body">
-                    <button type="button" class="btn btn-dark btn-block">Total Pay:</button>
-                    <button type="button" class="btn btn-warning btn-block">Rp. 8.950.000</button>
+                    <button type="button" class="btn btn-dark btn-block">Unit Total Damage:</button>
+                    <button type="button" class="btn btn-warning btn-block"><?php echo isset($row_kondisi['prsn_total']) ? $row_kondisi['prsn_total'] : 'N/A'; ?></button>
+                  </div>
+                  <div class="card-body">
+                    <button type="button" class="btn btn-dark btn-block">Total Bill To Pay:</button>
+                    <button type="button" class="btn btn-warning btn-block"><?php echo isset($row_kondisi['total_pay']) ? $row_kondisi['total_pay'] : 'N/A'; ?></button>
                   </div>
                 </div>
-                
-                
-              
-              
               </div>
             </div>
           </div>
           <div>
-            
           </div>
           <div class="row g-4" >
             <div class="col-12">
               <div class="row gy-4">
                 <div class="" style="width: 26rem">
-                  
-                  
                 </div>
-                
-                
-                
-         
-          
- 
-              </form>
             </div>
           </div>
        
       </div>
     </div>
     <!-- Contact End -->
-
-
-
     <!-- JavaScript Libraries -->
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
@@ -197,3 +209,6 @@
     <script src="js/main.js"></script>
   </body>
 </html>
+
+
+

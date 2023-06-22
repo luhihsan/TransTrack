@@ -1,3 +1,24 @@
+<?php
+include('koneksi.php');
+if (isset($_POST['usability'])) {
+  $selectedUnit = $_POST['id_unit'];
+
+  $query_unit = "SELECT * FROM unit WHERE id_unit = '$selectedUnit'";
+  $result_unit = mysqli_query($conn, $query_unit);
+  $row_unit = mysqli_fetch_assoc($result_unit);  
+
+  $query_usability = "SELECT * FROM usability WHERE id_unit = '$selectedUnit'";
+  $result_usability = mysqli_query($conn, $query_usability);
+  $row_usability = mysqli_fetch_assoc($result_usability);
+
+  if (!$result_usability) {
+    die('Error: ' . mysqli_error($conn));
+  }
+
+}
+mysqli_close($conn);
+?>
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -82,24 +103,12 @@
     <div class="row gy-4">
       <div class="col-md-4">
         <div class="bg-light d-flex flex-column justify-content-center p-4">
-          <h5 class="text-uppercase text-center">WITM-101-Laksana</h5>
-          
+          <h5 class="text-uppercase text-center"><?php echo isset($row_unit['nomer_lambung']) ? $row_unit['nomer_lambung'] : 'N/A'; ?></h5>
           <hr>
           <div class="card-body">
-            <img class="justify-content-center" src="bus3.png" width="104%">
-           
+            <img class="justify-content-center" src="bus3.png" width="104%">           
           </div>
-          
-         
         </div>
-        <a href=""><button class="btn">
-          <img src="Dismiss.png" width="40px" />
-        </button><p>Diagnogsis</p></a>
-        <a href="testimonial.html"><button class="btn">
-          <img src="showlog.png" width="40px" />
-        </button><p>Show log</p></a>
-        
-        
       </div>
       
       <div class="col-md-8">
@@ -118,14 +127,14 @@
       
       <div class="col-4">
         <h3 class="text-uppercase ">Daily Profit and Spending</h3>
-        <p>Average Daily Profit :<h5>Rp4.754.250</h5></p>
-        <p>Average Daily Spending : <h5>Rp1.542.000 </h5> </p>
+        <p>Average Daily Profit :<h5><?php echo isset($row_usability['avg_daily_profit']) ? $row_usability['avg_daily_profit'] : 'N/A'; ?></h5></p>
+        <p>Average Daily Spending : <h5><?php echo isset($row_usability['avg_daily_spend']) ? $row_usability['avg_daily_spend'] : 'N/A'; ?></h5> </p>
         
         <h3 class="text-uppercase ">Unit Usability Data</h3>
-        <p>Monthly Average Profit : <h5>Rp118.436.250</h5></p>
-        <p>Monthly Average Spending : <h5>Rp28.674.100</h5></p>
-        <p>Monthly Average Jobs : <h5>27 Jobs </h5></p>
-        <p>Monthly Average Fuel Consumption : <h5>1200 Lt</h5></p>
+        <p>Monthly Average Profit : <h5><?php echo isset($row_usability['avg_monthly_profit']) ? $row_usability['avg_monthly_profit'] : 'N/A'; ?></h5></p>
+        <p>Monthly Average Spending : <h5><?php echo isset($row_usability['avg_monthly_spend']) ? $row_usability['avg_monthly_spend'] : 'N/A'; ?></h5></p>
+        <p>Monthly Average Jobs : <h5><?php echo isset($row_usability['avg_job']) ? $row_usability['avg_job'] : 'N/A'; ?></h5></p>
+        <p>Monthly Average Fuel Consumption : <h5><?php echo isset($row_usability['avg_fuel']) ? $row_usability['avg_fuel'] : 'N/A'; ?></h5></p>
 
       </div>
       <div class="col-md">
