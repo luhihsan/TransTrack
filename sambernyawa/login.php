@@ -1,40 +1,23 @@
 <?php
-include('../koneksi.php');
-session_start();
+include('koneksi.php');
 
-$username = $_POST['username'];
-$pass = $_POST['password'];
-$q = "SELECT * FROM user WHERE username = '".$username."' AND password = '".$pass."' ";
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-if(isset($_POST['login'])){
-    if($query = mysqli_query($conn, $q)){
-       $data = mysqli_fetch_assoc($query);
-         
-        if($data['username'] == $username){
-            if($data['password'] == $pass){
-                $_SESSION['id'] = $data['id'];
-                $_SESSION['nama'] = $data['nama'];
-                $_SESSION['username'] = $username;
-                if($data['usertype'] == "admin"){
-                    $_SESSION['status'] = "login admin sukses";
-                    header("location:../../tes.html");//ganti ke dashboard
-                }
-                else{
-                    $_SESSION['status'] = "login sukses";
-                    header("location:../Dashboard/dashboard.php");//ganti ke login page
-                }
-            }else{
-        }
-        }else{
-        echo "<script>alert('Password tidak ditemukan'); window.location = 'login.php'; </script>";
-        }
-    }else{
-    echo "<script>alert('Username atau password tidak terdaftar');  window.location = 'login.php'; </script>";
-    
-    }
+  $username = $_POST['username'];
+  $password = $_POST['password'];
+
+  $query = "SELECT * FROM user WHERE username = '$username' AND password = '$password'";
+  $result = mysqli_query($conn, $query);
+
+  if (mysqli_num_rows($result) === 1) {
+
+    header("Location: team.php");
+    exit;
+  } else {
+    $errorMessage = "The data you entered is incorrect.";
+  }
 }
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -77,34 +60,6 @@ if(isset($_POST['login'])){
     </div>
     <!-- Spinner End -->
 
-    <!-- Navbar Start -->
-    <nav class="navbar navbar-expand-lg bg-white navbar-light shadow sticky-top p-0">
-      <a href="index.html" class="navbar-brand d-flex align-items-center px-4 px-lg-5">
-        <h2 class="m-0 text-blue"><i class="fa fa-bus me-3"></i>TransTrack</h2>
-      </a>
-      <button type="button" class="navbar-toggler me-4" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarCollapse">
-        <div class="navbar-nav ms-auto p-4 p-lg-0">
-          <a href="index.html" class="nav-item nav-link"></a>
-          <a href="about.html" class="nav-item nav-link active"></a>
-          <a href="service.html" class="nav-item nav-link"></a>
-          <div class="nav-item dropdown">
-            <div class="dropdown-menu fade-up m-0">
-              <a href="booking.html" class="dropdown-item"></a>
-              <a href="team.html" class="dropdown-item"></a>
-              <a href="testimonial.html" class="dropdown-item"></a>
-              <a href="404.html" class="dropdown-item"></a>
-            </div>
-          </div>
-          <a href="contact.html" class="nav-item nav-link"></a>
-        </div>
-        <a href="about.html" class="btn btn-close-white py-4 px-lg-5 d-none d-lg-block">Menu<i class="fa fa-arrow-right ms-3"></i></a>
-      </div>
-    </nav>
-    <!-- Navbar End -->
-
     <!-- Contact Start -->
     <div class="container-xxl py-5">
       <div class="container">
@@ -114,62 +69,32 @@ if(isset($_POST['login'])){
         </div>
         <div class="row g-4">
           <div class="col-12">
-            <div class="row gy-4">
-              <div class="col-md-4">
-                <div class="bg-light d-flex flex-column justify-content-center p-4">
-                  <h5 class="text-uppercase"></h5>
-                  
-                </div>
-              </div>
-              <div class="col-md-4">
-                <div class="bg-light d-flex flex-column justify-content-center p-4">
-                  <h5 class="text-uppercase"></h5>
-                  
-                </div>
-              </div>
-              <div class="col-md-4">
-                <div class="bg-light d-flex flex-column justify-content-center p-4">
-                  <h5 class="text-uppercase"></h5>
-                  
-                </div>
-              </div>
-            </div>
           </div>
           <div class="col-md-6 wow fadeIn" data-wow-delay="0.1s">
-            <img src="bus1.png" width="130%">
+            <img src="Logo_text-removebg-preview.png" width="100%">
           </div>
           <div class="col-md-6">
             <div class="wow fadeInUp" data-wow-delay="0.2s">
-              <p class="mb-4"></p>
-              <form>
-                <div class="row g-3">
-                  <div class="col-md-6">
-                    <div class="form-floating">
-                      <input type="text" class="form-control" id="name" placeholder="Your Name" />
-                      <label for="name">Your Name</label>
+                <p class="mb-4"><?php echo isset($errorMessage) ? $errorMessage : ''; ?></p>
+                <form method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
+                  <!-- ... Existing form code ... -->
+                  <div class="row g-3">
+                    <div class="col-md-7">
+                      <div class="form-floating">
+                        <input type="text" class="form-control" id="username" name="username" placeholder="Your username" />
+                        <label for="username">Your username</label>
+                      </div>
                     </div>
-                  </div>
-                  <div class="col-md-6">
-                    <div class="form-floating">
-                      <input type="username" class="form-control" id="username" placeholder="Your username" />
-                      <label for="username">Your username</label>
+                    <div class="col-7">
+                      <div class="form-floating">
+                        <input type="password" class="form-control" id="password" name="password" placeholder="Password" />
+                        <label for="password">Password</label>
+                      </div>
                     </div>
-                  </div>
-                  <div class="col-12">
-                    <div class="form-floating">
-                      <input type="text" class="form-control" id="subject" placeholder="Subject" />
-                      <label for="subject">Password</label>
+                    <!-- ... Remaining form fields ... -->
+                    <div class="col-7">
+                      <button class="btn btn-primary w-100 py-3" type="submit">Login</button>
                     </div>
-                  </div>
-                  
-                  </div>
-                  <p>
-
-                  </p>
-                  <div class="col-12">
-                    <a href="about.html"button class="btn btn-primary w-100 py-3" type="submit">Login</button> </a>
-                    
-                  </div>
                 </div>
               </form>
             </div>
