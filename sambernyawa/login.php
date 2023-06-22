@@ -21,7 +21,7 @@ if(isset($_POST['login'])){
                 }
                 else{
                     $_SESSION['status'] = "login sukses";
-                    header("location:../Dashboard/dashboard.php");
+                    header("location:../Dashboard/dashboard.php");//ganti ke login page
                 }
             }else{
         }
