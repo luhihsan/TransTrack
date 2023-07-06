@@ -24,6 +24,10 @@ $query_kondisi = "SELECT * FROM kondisi_unit WHERE id_unit = '$selectedUnit'";
 $result_kondisi = mysqli_query($conn, $query_kondisi);
 $row_kondisi = mysqli_fetch_assoc($result_kondisi);
 
+$foto = "SELECT unit.foto_unit FROM unit WHERE unit.id_unit = $selectedUnit";
+$fotoResult = mysqli_query($conn, $foto);
+$selectedFotoData = mysqli_fetch_assoc($fotoResult);
+
 }
 // Close koneksi ke database
 mysqli_close($conn);
@@ -79,31 +83,38 @@ mysqli_close($conn);
 
     <!-- Navbar Start -->
     <nav class="navbar navbar-expand-lg bg-white navbar-light shadow sticky-top p-0">
-        <a href="index.html" class="navbar-brand d-flex align-items-center px-4 px-lg-5">
-          <h2 class="m-0 text-blue"><i class="fa fa-car me-3"></i>TransTrack</h2>
-        </a>
-        <button type="button" class="navbar-toggler me-4" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarCollapse">
-          <div class="navbar-nav ms-auto p-4 p-lg-0">
-            <a href="index.html" class="nav-item nav-link"></a>
-            <a href="about.html" class="nav-item nav-link active"></a>
-            <a href="service.html" class="nav-item nav-link"></a>
-            <div class="dropdown">
-              <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <img src="profil.png" width="40px" />
-              </button>
-              <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                <a class="dropdown-item" href="index.html">Logout</a>
-              </div>
+      <a href="coba_dashboard.php" class="navbar-brand d-flex align-items-center px-4 px-lg-5">
+        <h2 class="m-0 text-blue"><i class="fa fa-bus me-3"></i>TransTrack</h2>
+      </a>
+      <button type="button" class="navbar-toggler me-4" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarCollapse">
+        <div class="navbar-nav ms-auto p-4 p-lg-0">
+            <a href="coba_dashboard.php" class="nav-item nav-link">Dashboard</a>
+            <a href="team.php" class="nav-item nav-link">Unit Manager</a>
+          <div class="dropdown">
+            <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <img src="profil.png" width="40px" />
+            </button>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+              <a class="dropdown-item" href="landingpage/landingpage.html">Logout</a>
             </div>
-            <a href="contact.html" class="nav-item nav-link"></a>
           </div>
-          <a href="about.html" class="btn btn-secondary py-4 px-lg-5 d-none d-lg-block">Menu<i class="fa fa-arrow-right ms-3"></i></a>
+          <a href="contact.html" class="nav-item nav-link"></a>
         </div>
-      </nav>
+       
+      </div>
+    </nav>
     <!-- Navbar End -->
+
+    <div class="container-fluid page-header mb-5 p-0" style="background-image: url(fotopanjang3.jpg)">
+      <div class="container-fluid page-header-inner py-5">
+        <div class="container text-center">
+          <h1 class="display-3 text-white mb-3 animated slideInDown">Unit Condition Monitor</h1>
+        </div>
+      </div>
+    </div>
 
     <!-- Contact Start -->
     <div class="background"></div>
@@ -138,7 +149,7 @@ mysqli_close($conn);
                   </div>
                 </div>
                 <div class="col">
-                  <img class="justify-content-center" src="bus3.png"  width="107%"/>
+                  <img class="justify-content-center" src="./img/foto_unit/<?php echo $selectedFotoData['foto_unit']; ?>"/>
                 </div>
                 <div class="card bg-light">
                   <div class="card-body bg-light">
@@ -171,10 +182,6 @@ mysqli_close($conn);
                   <div class="card-body">
                     <button type="button" class="btn btn-dark btn-block">Unit Total Damage:</button>
                     <button type="button" class="btn btn-warning btn-block"><?php echo isset($row_kondisi['prsn_total']) ? $row_kondisi['prsn_total'] : 'N/A'; ?></button>
-                  </div>
-                  <div class="card-body">
-                    <button type="button" class="btn btn-dark btn-block">Total Bill To Pay:</button>
-                    <button type="button" class="btn btn-warning btn-block"><?php echo isset($row_kondisi['total_pay']) ? $row_kondisi['total_pay'] : 'N/A'; ?></button>
                   </div>
                 </div>
               </div>

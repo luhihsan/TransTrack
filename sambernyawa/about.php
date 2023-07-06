@@ -49,17 +49,28 @@ header('location:..login.php');
 
     <!-- Navbar Start -->
     <nav class="navbar navbar-expand-lg bg-white navbar-light shadow sticky-top p-0">
-      <a href="index.html" class="navbar-brand d-flex align-items-center px-4 px-lg-5">
+      <a href="coba_dashboard.php" class="navbar-brand d-flex align-items-center px-4 px-lg-5">
         <h2 class="m-0 text-blue"><i class="fa fa-bus me-3"></i>TransTrack</h2>
       </a>
       <button type="button" class="navbar-toggler me-4" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarCollapse">
- 
+        <div class="navbar-nav ms-auto p-4 p-lg-0">
+            <a href="coba_dashboard.php" class="nav-item nav-link">Dashboard</a>
+            <a href="team.php" class="nav-item nav-link">Unit Manager</a>
+          <div class="dropdown">
+            <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <img src="profil.png" width="40px" />
+            </button>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+              <a class="dropdown-item" href="landingpage/landingpage.html">Logout</a>
+            </div>
+          </div>
+          <a href="contact.html" class="nav-item nav-link"></a>
         </div>
-        <a href="index.html" class="btn btn-primary py-4 px-lg-5 d-none d-lg-block">Logout<i class="fa fa-arrow-right ms-3"></i></a>
-      
+       
+      </div>
     </nav>
     
     <!-- Navbar End -->

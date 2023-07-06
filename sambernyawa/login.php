@@ -11,7 +11,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
   if (mysqli_num_rows($result) === 1) {
 
-    header("Location: team.php");
+    header("Location: coba_dashboard.php");
     exit;
   } else {
     $errorMessage = "The data you entered is incorrect.";
@@ -22,7 +22,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <title>CarServ - Car Repair HTML Template</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
     <meta content="" name="keywords" />
     <meta content="" name="description" />
@@ -62,46 +61,45 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     <!-- Contact Start -->
     <div class="container-xxl py-5">
-      <div class="container">
-        <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
-          <h6 class="text-primary text-uppercase"></h6>
-          <h1 class="mb-5">Please Login With Your Registered Account</h1>
+  <div class="container">
+    <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
+      <h6 class="text-primary text-uppercase"></h6>
+      <h1 class="mb-5">Welcome</h1>
+    </div>
+    <div class="row g-4">
+      <div class="col-12"></div>
+      <div class="col-md-6 offset-md-3"> <!-- Added offset-md-3 class to center the form -->
+        <div class="wow fadeIn" data-wow-delay="0.1s">
+          <img src="logo_TransTrack.png" width="100%">
         </div>
-        <div class="row g-4">
-          <div class="col-12">
-          </div>
-          <div class="col-md-6 wow fadeIn" data-wow-delay="0.1s">
-            <img src="Logo_text-removebg-preview.png" width="100%">
-          </div>
-          <div class="col-md-6">
-            <div class="wow fadeInUp" data-wow-delay="0.2s">
-                <p class="mb-4"><?php echo isset($errorMessage) ? $errorMessage : ''; ?></p>
-                <form method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
-                  <!-- ... Existing form code ... -->
-                  <div class="row g-3">
-                    <div class="col-md-7">
-                      <div class="form-floating">
-                        <input type="text" class="form-control" id="username" name="username" placeholder="Your username" />
-                        <label for="username">Your username</label>
-                      </div>
-                    </div>
-                    <div class="col-7">
-                      <div class="form-floating">
-                        <input type="password" class="form-control" id="password" name="password" placeholder="Password" />
-                        <label for="password">Password</label>
-                      </div>
-                    </div>
-                    <!-- ... Remaining form fields ... -->
-                    <div class="col-7">
-                      <button class="btn btn-primary w-100 py-3" type="submit">Login</button>
-                    </div>
+        <div class="wow fadeInUp" data-wow-delay="0.2s">
+          <p class="mb-4"><?php echo isset($errorMessage) ? $errorMessage : ''; ?></p>
+          <form method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
+            <!-- ... Existing form code ... -->
+            <div class="row g-3">
+              <div class="col-md-12">
+                <div class="form-floating">
+                  <input type="text" class="form-control" id="username" name="username" placeholder="Your username" />
+                  <label for="username">Your username</label>
                 </div>
-              </form>
+              </div>
+              <div class="col-md-12">
+                <div class="form-floating">
+                  <input type="password" class="form-control" id="password" name="password" placeholder="Password" />
+                  <label for="password">Password</label>
+                </div>
+              </div>
+              <!-- ... Remaining form fields ... -->
+                <p></p>
+                <button class="btn btn-secondary w-100 py-3" type="submit">Login</button>
+              </div>
             </div>
-          </div>
+          </form>
         </div>
       </div>
     </div>
+  </div>
+</div>
     <!-- Contact End -->
 
 
