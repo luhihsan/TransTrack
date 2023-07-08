@@ -13,10 +13,6 @@ $data_spend_unit = array();
 // Fetch unit and data
 while ($row_unit = mysqli_fetch_assoc($hasil_unit)) {
     $unit[] = $row_unit['id_unit'];
-    $unit_array = array();
-        foreach ($unit as $value) {
-            $unit_array[] = $value;
-        }
 
     // Fetch pendapatan data per unit
     $query_pendapatan_per_unit = "SELECT rata_rata_per_bulan FROM pendapatan_unit WHERE id_unit = " . $row_unit['id_unit'];
@@ -128,7 +124,7 @@ $urutan = array_merge($dataset, $spend_dataset);
 $maxDataLength = max(array_map('count', $data_pendapatan_per_kolom)); // Mencari panjang maksimum data
 
 // Calculate number of dropdown options
-
+$num_options = ceil(count($unit) / 5);
 ?>
 
 <!DOCTYPE html>
@@ -141,22 +137,43 @@ $maxDataLength = max(array_map('count', $data_pendapatan_per_kolom)); // Mencari
             margin: auto;
         }
 
+        .dropdown {
+            margin-bottom: 10px;
+        }
     </style>
 </head>
 <body>
     <div class="tabel">
-       
-        <canvas id="pendapatanSpendChartunit"></canvas>
+        <div class="dropdown">
+            <label for="unitDropdown">Unit: <?php echo  $row_unit;?></label>
+            <select id="unitDropdown">
+                <?php for ($i = 1; $i <= $num_options; $i++) { ?>
+                    <option value="<?php echo $i; ?>" <?php if ($i == 1) echo 'selected'; ?>>Data <?php echo ($i-1)*5 + 1; ?>-<?php echo min($i*5, count($unit)); ?></option>
+<?php if ($i == 1) { ?>
+    <script>
+        // Set initial chart data and labels
+        pendapatanSpendChart.data.labels = <?php echo json_encode($unit_slice); ?>;
+        pendapatanSpendChart.data.datasets = <?php echo json_encode($datasets_slice); ?>;
+        pendapatanSpendChart.update();
+    </script>
+<?php } ?>
+
+                <?php } ?>
+            </select>
+        </div>
+        <canvas id="pendapatanSpendChart"></canvas>
         <script>
             // Retrieve data from PHP
             var units = <?php echo json_encode($unit); ?>;
             var datasets = <?php echo json_encode($chart_datasets); ?>;
-            var labels = <?php echo json_encode($unit_array); ?>;
-            
+            var labels = [];
+            for (var i = 1; i <= 5; i++) {
+                labels.push(i);
+            }
             var colors = ['rgba(0, 123, 255, 0.5)', 'rgba(255, 99, 132, 0.5)' ];
 
             // Create chart
-            var ctx = document.getElementById('pendapatanSpendChartunit').getContext('2d');
+            var ctx = document.getElementById('pendapatanSpendChart').getContext('2d');
             var pendapatanSpendChart = new Chart(ctx, {
                 type: 'bar',
                 data: {
@@ -190,6 +207,31 @@ $maxDataLength = max(array_map('count', $data_pendapatan_per_kolom)); // Mencari
                     }
                 }
             });
+
+            // Dropdown event listener
+            var unitDropdown = document.getElementById('unitDropdown');
+            unitDropdown.addEventListener('change', function () {
+                var selectedOption = unitDropdown.value;
+                var startIndex = (selectedOption - 1) * 5;
+                var endIndex = selectedOption * 5;
+                var slicedUnits = units.slice(startIndex, endIndex);
+                var slicedDatasets = datasets.filter(function (dataset) {
+                    var unitNumber = parseInt(dataset.label.match(/\d+/)[0]);
+                    return unitNumber >= startIndex + 1 && unitNumber <= endIndex;
+                });
+
+                // Update chart data and labels
+               // Update chart data and labels
+                pendapatanSpendChart.data.labels = slicedUnits;
+                pendapatanSpendChart.data.datasets = slicedDatasets;
+                pendapatanSpendChart.update();
+
+            });
+
+            // Slice data for initial display
+            $unit_slice = array_slice($unit, 0, 5);
+            $datasets_slice = array_slice($urutan, 0, 10);
+
         </script>
     </div>
 </body>

@@ -61,6 +61,12 @@ $chart_dataset = array(
                         }
                     },
                     scales: {
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'ID Unit'
+                            }
+                        },
                         y: {
                             beginAtZero: false,
                             min: 950000000,

@@ -107,6 +107,38 @@ $result = mysqli_query($conn, $sql);
     <div class="container-xxl py-5">
   <div class="container">
     <div class="row">
+    <div class="col-md-6">
+
+    <div class="bg-light d-flex flex-column justify-content-center p-4">
+    <?php
+        include 'dashboard_chartProfit.php'; 
+        echo "<a href='detail_pendapatanUnit.php'>"; 
+        echo "<button type='submit' name='more_detail' class='btn btn-success'>More Detail</button>"; 
+        echo "</a>";
+      ?>
+    </div>
+
+    </div>
+
+    <div class="col-md-6">
+
+    <div class="bg-light d-flex flex-column justify-content-center p-4">
+    <?php
+        include 'dashboard_chartSpend.php';
+        echo "<a href='detail_spendUnit.php'>";
+        echo "<button type='submit' name='more_detail' class='btn btn-success'>More Detail</button>";
+        echo "</a>";   ?>
+    </div>
+
+    </div>
+
+    <div class="col-md-12">
+
+    <div class="bg- d-flex flex-column justify-content-center p-4">
+    </div>
+
+    </div>
+
       <div class="col-sm-8">
         <div class="wow fadeInUp" data-wow-delay="0.3s">
           <div class="table-container">

@@ -2,14 +2,14 @@
 include('koneksi.php');
 
 // Fetch company's income data per unit
-$query_jml_spend = "SELECT SUM(jumlah) AS total_pendapatan, id_unit FROM spend_unit GROUP BY id_unit ORDER BY total_pendapatan DESC;";
+$query_jml_spend = "SELECT jumlah AS total_spend, id_unit FROM spend_unit ORDER BY jumlah DESC ;";
 $hasil_jml_spend = mysqli_query($conn, $query_jml_spend);
 
 // Data
 $data_jml_spend = array();
 $labels = array();
 while ($row = mysqli_fetch_assoc($hasil_jml_spend)) {
-    $data_jml_spend[] = $row['total_pendapatan'];
+    $data_jml_spend[] = $row['total_spend'];
     $labels[] = $row['id_unit'];
 }
 
@@ -69,8 +69,8 @@ $chart_dataset = array(
                         },
                         y: {
                             beginAtZero: false,
-                            min: 19000000,
-                            max: 24000000,
+                            min: 210000000,
+                            max: 231000000,
                             stepSize: 20000000,
                             ticks: {
                                 callback: function (value, index, values) {

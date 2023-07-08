@@ -210,10 +210,7 @@ $row_spend_profit_unit = mysqli_fetch_assoc($result_spend_profit_unit);
 
                 <div class="bg-light d-flex flex-column justify-content-center p-4">
                  <?php
-                    include 'dashboard_chartProfit.php'; 
-                    echo "<a href='detail_pendapatanUnit.php'>"; 
-                    echo "<button type='submit' name='more_detail' class='btn btn-success'>More Detail</button>"; 
-                    echo "</a>";
+                    include 'chart_jml_profitUnit.php'; 
                   ?>
                 </div>
 
@@ -223,10 +220,8 @@ $row_spend_profit_unit = mysqli_fetch_assoc($result_spend_profit_unit);
 
                 <div class="bg-light d-flex flex-column justify-content-center p-4">
                 <?php
-                    include 'dashboard_chartSpend.php';
-                    echo "<a href='detail_spendUnit.php'>";
-                    echo "<button type='submit' name='more_detail' class='btn btn-success'>More Detail</button>";
-                    echo "</a>";   ?>
+                    include 'chart_jml_spendUnit.php';
+                ?>
                 </div>
 
                 </div>
@@ -251,9 +246,26 @@ $row_spend_profit_unit = mysqli_fetch_assoc($result_spend_profit_unit);
 
                 </div>
 
+                <div class="col-md-6">
 
-                
-                
+                <div class="bg-light d-flex flex-column justify-content-center p-4">
+                <?php
+                  include 'chart_laba_rugi_perusahaan.php';
+                  ?>
+                </div>
+
+                </div>
+
+                <div class="col-md-6">
+
+                <div class="bg-light d-flex flex-column justify-content-center p-4">
+                <?php
+                  include 'chart_laba_rugi_unit.php';
+                  ?>
+                </div>
+
+                </div>
+
             </div>
             
     </div>
